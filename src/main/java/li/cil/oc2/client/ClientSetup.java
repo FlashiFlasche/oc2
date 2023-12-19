@@ -24,7 +24,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
@@ -62,8 +62,8 @@ public final class ClientSetup {
     }
 
     @SubscribeEvent
-    public static void handleModelRegistryEvent(final ModelRegistryEvent event) {
-        ModelLoaderRegistry.registerLoader(Blocks.BUS_CABLE.getId(), new BusCableModelLoader());
+    public static void handleModelRegistryEvent(final ModelEvent.RegisterGeometryLoaders event) {
+        event.register(Blocks.BUS_CABLE.getId().toString(), new BusCableModelLoader()); // TODO: Watch this in case of duplicate mod id in registry maybe
     }
 
     @SubscribeEvent
