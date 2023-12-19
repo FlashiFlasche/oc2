@@ -35,3 +35,6 @@ forge*changelog.txt
 
 # Don't ignore bin from scripts
 !/src/main/scripts/bin/
+
+# patched java for apple silicon
+jre
