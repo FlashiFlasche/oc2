@@ -246,7 +246,7 @@ class MyCalculatorDevice {
     }
 }
 
-class ModDeviceProvider extends ForgeRegistryEntry<BlockDeviceProvider> implements BlockDeviceProvider {
+class ModDeviceProvider implements BlockDeviceProvider {
     @Override
     public Invalidatable<Device> getDevice(BlockDeviceQuery query) {
         // Note: optionally check other conditions, such as settings, on whether to just return empty().
@@ -315,7 +315,7 @@ class ModDevice implements RPCDevice {
     }
 }
 
-class ModDeviceProvider extends ForgeRegistryEntry<BlockDeviceProvider> implements BlockDeviceProvider {
+class ModDeviceProvider implements BlockDeviceProvider {
     @Override
     public Invalidatable<Device> getDevice(BlockDeviceQuery query) {
         // Note: optionally check other conditions, such as settings, on whether to just return empty().
