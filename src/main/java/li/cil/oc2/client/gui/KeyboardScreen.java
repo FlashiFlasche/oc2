@@ -19,11 +19,12 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
-
-import java.util.Random;
 
 public final class KeyboardScreen extends Screen {
     private static final int BORDER_SIZE = 4;
@@ -35,6 +36,7 @@ public final class KeyboardScreen extends Screen {
     ///////////////////////////////////////////////////////////////////
 
     private final KeyboardBlockEntity keyboard;
+    private boolean forceHideHotbar;
 
     ///////////////////////////////////////////////////////////////////
 
@@ -45,6 +47,14 @@ public final class KeyboardScreen extends Screen {
 
     ///////////////////////////////////////////////////////////////////
 
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public void onRenderOverlay(RenderGuiOverlayEvent.Pre event) {
+        if(event.getOverlay() == VanillaGuiOverlay.HOTBAR.type()) {
+            event.setCanceled(forceHideHotbar);
+        }
+    }
+
     @Override
     protected void init() {
         super.init();
@@ -54,7 +64,7 @@ public final class KeyboardScreen extends Screen {
         grabMouse();
 
         // Disable hotbar since we don't need it here, and it just blocks screen space.
-        OverlayRegistry.enableOverlay(ForgeIngameGui.HOTBAR_ELEMENT, false);
+        forceHideHotbar = true;
     }
 
     @Override
@@ -111,7 +121,7 @@ public final class KeyboardScreen extends Screen {
     public void removed() {
         super.removed();
 
-        OverlayRegistry.enableOverlay(ForgeIngameGui.HOTBAR_ELEMENT, true);
+        forceHideHotbar = false;
     }
 
     ///////////////////////////////////////////////////////////////////
