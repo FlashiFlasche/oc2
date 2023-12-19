@@ -22,7 +22,7 @@ public final class ResourceBlockDeviceData implements IForgeRegistryEntry<BlockD
     public ResourceBlockDeviceData(final ResourceManager resourceManager, final ResourceLocation location, final String name) throws IOException {
         this.location = location;
         this.name = name;
-        final InputStream stream = resourceManager.getResource(location).getInputStream();
+        final InputStream stream = resourceManager.getResource(location).get().open();
         this.blockDevice = ByteBufferBlockDevice.createFromStream(stream, true);
     }
 
