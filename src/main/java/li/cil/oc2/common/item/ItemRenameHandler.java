@@ -3,11 +3,14 @@
 package li.cil.oc2.common.item;
 
 import li.cil.oc2.api.API;
+import li.cil.oc2.api.util.Registries;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.MissingMappingsEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,15 +29,10 @@ public final class ItemRenameHandler {
 
     ///////////////////////////////////////////////////////////////////
 
-    public static void initialize() {
-        MinecraftForge.EVENT_BUS.addGenericListener(Item.class, ItemRenameHandler::handleMissingMappings);
-    }
-
-    ///////////////////////////////////////////////////////////////////
-
-    private static void handleMissingMappings(final RegistryEvent.MissingMappings<Item> event) {
-        for (final RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
-            final ResourceLocation key = mapping.key;
+    @SubscribeEvent
+    public static void onItemMissingMappings(MissingMappingsEvent event) {
+        for (MissingMappingsEvent.Mapping<Item> mapping : event.getAllMappings(ForgeRegistries.ITEMS.getRegistryKey())) {
+            final ResourceLocation key = mapping.getKey();
             if (key == null || !Objects.equals(key.getNamespace(), API.MOD_ID)) {
                 continue;
             }
