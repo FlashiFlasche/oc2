@@ -53,7 +53,6 @@ import java.util.List;
 import static li.cil.oc2.common.Constants.BLOCK_ENTITY_TAG_NAME_IN_ITEM;
 import static li.cil.oc2.common.Constants.ITEMS_TAG_NAME;
 import static li.cil.oc2.common.util.NBTUtils.makeInventoryTag;
-import static li.cil.oc2.common.util.RegistryUtils.key;
 import static li.cil.oc2.common.util.TranslationUtils.text;
 
 public final class ComputerBlock extends HorizontalDirectionalBlock implements EntityBlock {
@@ -230,7 +229,7 @@ public final class ComputerBlock extends HorizontalDirectionalBlock implements E
         final ItemStack computer = new ItemStack(this);
 
         final CompoundTag itemsTag = NBTUtils.getOrCreateChildTag(computer.getOrCreateTag(), BLOCK_ENTITY_TAG_NAME_IN_ITEM, ITEMS_TAG_NAME);
-        itemsTag.put(key(DeviceTypes.FLASH_MEMORY), makeInventoryTag(
+        itemsTag.put("flash_memory", makeInventoryTag(
             new ItemStack(Items.FLASH_MEMORY_CUSTOM.get())
         ));
 
@@ -241,16 +240,16 @@ public final class ComputerBlock extends HorizontalDirectionalBlock implements E
         final ItemStack computer = getComputerWithFlash();
 
         final CompoundTag itemsTag = NBTUtils.getOrCreateChildTag(computer.getOrCreateTag(), BLOCK_ENTITY_TAG_NAME_IN_ITEM, ITEMS_TAG_NAME);
-        itemsTag.put(key(DeviceTypes.MEMORY), makeInventoryTag(
+        itemsTag.put("memory", makeInventoryTag(
             new ItemStack(Items.MEMORY_LARGE.get()),
             new ItemStack(Items.MEMORY_LARGE.get()),
             new ItemStack(Items.MEMORY_LARGE.get()),
             new ItemStack(Items.MEMORY_LARGE.get())
         ));
-        itemsTag.put(key(DeviceTypes.HARD_DRIVE), makeInventoryTag(
+        itemsTag.put("hard_drive", makeInventoryTag(
             new ItemStack(Items.HARD_DRIVE_CUSTOM.get())
         ));
-        itemsTag.put(key(DeviceTypes.CARD), makeInventoryTag(
+        itemsTag.put("card", makeInventoryTag(
             new ItemStack(Items.NETWORK_INTERFACE_CARD.get())
         ));
 

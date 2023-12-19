@@ -58,7 +58,7 @@ public final class ClientSetup {
 
     @SubscribeEvent
     public static void handleModelRegistryEvent(final ModelEvent.RegisterGeometryLoaders event) {
-        event.register(Blocks.BUS_CABLE.getId().toString(), new BusCableModelLoader()); // TODO: Watch this in case of duplicate mod id in registry maybe
+        event.register(Blocks.BUS_CABLE.getId().toString().substring(4), new BusCableModelLoader()); // TODO: Watch this in case of duplicate mod id in registry maybe
     }
 
     @SubscribeEvent

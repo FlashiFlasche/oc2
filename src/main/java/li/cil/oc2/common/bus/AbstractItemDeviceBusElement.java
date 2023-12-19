@@ -6,6 +6,7 @@ import li.cil.oc2.api.bus.device.Device;
 import li.cil.oc2.api.bus.device.ItemDevice;
 import li.cil.oc2.api.bus.device.provider.ItemDeviceProvider;
 import li.cil.oc2.api.bus.device.provider.ItemDeviceQuery;
+import li.cil.oc2.common.bus.device.provider.ProviderRegistry;
 import li.cil.oc2.common.bus.device.provider.Providers;
 import li.cil.oc2.common.bus.device.rpc.TypeNameRPCDevice;
 import li.cil.oc2.common.bus.device.util.Devices;
@@ -15,12 +16,11 @@ import li.cil.oc2.common.util.NBTTagIds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.*;
-
-import static li.cil.oc2.common.util.RegistryUtils.optionalKey;
 
 public abstract class AbstractItemDeviceBusElement extends AbstractGroupingDeviceBusElement<AbstractItemDeviceBusElement.ItemEntry, ItemDeviceQuery> {
     public AbstractItemDeviceBusElement(final int groupCount) {
@@ -90,7 +90,7 @@ public abstract class AbstractItemDeviceBusElement extends AbstractGroupingDevic
             return;
         }
 
-        final ResourceLocation registryName = query.getItemStack().getItem().getRegistryName();
+        final ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(query.getItemStack().getItem());
         if (registryName != null) {
             final String itemName = registryName.toString();
             entries.add(new ItemEntry(new ItemDeviceInfo(null, new TypeNameRPCDevice(itemName), 0)));
@@ -148,7 +148,11 @@ public abstract class AbstractItemDeviceBusElement extends AbstractGroupingDevic
     protected record ItemEntry(ItemDeviceInfo deviceInfo) implements Entry {
         @Override
         public Optional<String> getDeviceDataKey() {
-            return optionalKey(deviceInfo.provider);
+            if(deviceInfo.provider == null) {
+                return Optional.empty();
+            }
+
+            return Optional.of(ProviderRegistry.ITEM_DEVICE_PROVIDER_REGISTRY.get().getKey(deviceInfo.provider).toString());
         }
 
         @Override

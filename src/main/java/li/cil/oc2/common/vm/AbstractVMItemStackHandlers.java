@@ -21,8 +21,6 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static li.cil.oc2.common.util.RegistryUtils.key;
-
 public abstract class AbstractVMItemStackHandlers implements VMItemStackHandlers {
     public record GroupDefinition(DeviceType deviceType, int count) { }
 
@@ -105,7 +103,7 @@ public abstract class AbstractVMItemStackHandlers implements VMItemStackHandlers
     public void saveItems(final CompoundTag tag) {
         itemHandlers.forEach((deviceType, handler) -> {
             if (!handler.isEmpty()) {
-                tag.put(key(deviceType), handler.saveItems());
+                tag.put(deviceType.getClass().toString(), handler.saveItems());
             }
         });
     }
@@ -118,12 +116,12 @@ public abstract class AbstractVMItemStackHandlers implements VMItemStackHandlers
 
     public void loadItems(final CompoundTag tag) {
         itemHandlers.forEach((deviceType, handler) ->
-            handler.loadItems(tag.getCompound(key(deviceType))));
+            handler.loadItems(tag.getCompound(deviceType.getClass().toString())));
     }
 
     public void saveDevices(final CompoundTag tag) {
         itemHandlers.forEach((deviceType, handler) ->
-            tag.put(key(deviceType), handler.saveDevices()));
+            tag.put(deviceType.getClass().getName(), handler.saveDevices()));
     }
 
     public CompoundTag saveDevices() {
@@ -134,7 +132,7 @@ public abstract class AbstractVMItemStackHandlers implements VMItemStackHandlers
 
     public void loadDevices(final CompoundTag tag) {
         itemHandlers.forEach((deviceType, handler) ->
-            handler.loadDevices(tag.getCompound(key(deviceType))));
+            handler.loadDevices(tag.getCompound(deviceType.getClass().toString())));
     }
 
     ///////////////////////////////////////////////////////////////////

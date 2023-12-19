@@ -165,7 +165,7 @@ public final class TooltipUtils {
     private static String[] getDeviceTypeNames() {
         final ForgeRegistry<DeviceType> registry = RegistryManager.ACTIVE.getRegistry(DeviceType.REGISTRY);
         if (registry != null) {
-            return registry.getValues().stream().map(RegistryUtils::key).toArray(String[]::new);
+            return registry.getValues().stream().map(DeviceType::getName).toArray(String[]::new);
         } else {
             return new String[0];
         }

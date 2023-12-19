@@ -39,7 +39,6 @@ import java.util.function.Consumer;
 
 import static li.cil.oc2.common.Constants.*;
 import static li.cil.oc2.common.util.NBTUtils.makeInventoryTag;
-import static li.cil.oc2.common.util.RegistryUtils.key;
 
 public final class RobotItem extends ModItem {
     @Override
@@ -133,7 +132,7 @@ public final class RobotItem extends ModItem {
         final ItemStack robot = new ItemStack(this);
 
         final CompoundTag itemsTag = NBTUtils.getOrCreateChildTag(robot.getOrCreateTag(), API.MOD_ID, ITEMS_TAG_NAME);
-        itemsTag.put(key(DeviceTypes.FLASH_MEMORY), makeInventoryTag(
+        itemsTag.put("flash_memory", makeInventoryTag(
             new ItemStack(Items.FLASH_MEMORY_CUSTOM.get())
         ));
 

@@ -78,13 +78,13 @@ public final class FileSystems {
         reset();
 
         LOGGER.info("Searching for datapack filesystems...");
-        final Collection<ResourceLocation> fileSystemDescriptorLocations = resourceManager
+        final Map<ResourceLocation, Resource> fileSystemDescriptorLocations = resourceManager
             .listResources("file_systems", s -> s.getPath().endsWith(".json"));
 
         final ArrayList<ZipStreamFileSystem> fileSystems = new ArrayList<>();
         final Object2IntArrayMap<ZipStreamFileSystem> fileSystemOrder = new Object2IntArrayMap<>();
 
-        for (final ResourceLocation fileSystemDescriptorLocation : fileSystemDescriptorLocations) {
+        for (final ResourceLocation fileSystemDescriptorLocation : fileSystemDescriptorLocations.keySet()) {
             LOGGER.info("Found [{}]", fileSystemDescriptorLocation);
             try {
                 final Resource fileSystemDescriptor = resourceManager.getResource(fileSystemDescriptorLocation).get();

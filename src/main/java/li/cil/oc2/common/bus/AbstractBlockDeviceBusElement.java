@@ -9,6 +9,7 @@ import li.cil.oc2.api.bus.device.provider.BlockDeviceProvider;
 import li.cil.oc2.api.bus.device.provider.BlockDeviceQuery;
 import li.cil.oc2.api.util.Invalidatable;
 import li.cil.oc2.common.Constants;
+import li.cil.oc2.common.bus.device.provider.ProviderRegistry;
 import li.cil.oc2.common.bus.device.provider.Providers;
 import li.cil.oc2.common.bus.device.rpc.TypeNameRPCDevice;
 import li.cil.oc2.common.bus.device.util.BlockDeviceInfo;
@@ -27,8 +28,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 import javax.annotation.Nullable;
 import java.util.*;
-
-import static li.cil.oc2.common.util.RegistryUtils.optionalKey;
 
 public abstract class AbstractBlockDeviceBusElement extends AbstractGroupingDeviceBusElement<AbstractBlockDeviceBusElement.BlockEntry, BlockDeviceQuery> implements BlockDeviceBusElement {
     public AbstractBlockDeviceBusElement() {
@@ -203,7 +202,11 @@ public abstract class AbstractBlockDeviceBusElement extends AbstractGroupingDevi
 
             // Grab these while the device info has not yet been invalidated. We still need to access
             // these even after the device has been invalidated to clean up.
-            this.dataKey = optionalKey(deviceInfo.get().provider).orElse(null);
+            if(deviceInfo.get().provider == null) {
+                this.dataKey = null;
+            } else {
+                this.dataKey = ProviderRegistry.BLOCK_DEVICE_PROVIDER_REGISTRY.get().getKey(deviceInfo.get().provider).toString();
+            }
             this.device = deviceInfo.get().device;
         }
 

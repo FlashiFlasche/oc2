@@ -58,23 +58,6 @@ public abstract class RegistryUtils {
         ENTRIES.clear();
     }
 
-    public static <T> String key(final IForgeRegistryEntry<T> registryEntry) {
-        return Objects.requireNonNull(registryEntry.getRegistryName()).toString();
-    }
-
-    public static <T> Optional<String> optionalKey(@Nullable final IForgeRegistryEntry<T> registryEntry) {
-        if (registryEntry == null) {
-            return Optional.empty();
-        }
-
-        final ResourceLocation providerName = registryEntry.getRegistryName();
-        if (providerName == null) {
-            return Optional.empty();
-        }
-
-        return Optional.of(providerName.toString());
-    }
-
     private RegistryUtils() {
     }
 }

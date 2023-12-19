@@ -4,6 +4,7 @@ package li.cil.oc2.common.bus.device.data;
 
 import li.cil.oc2.api.bus.device.data.BlockDeviceData;
 import li.cil.oc2.api.util.Registries;
+import li.cil.oc2.common.bus.device.provider.ProviderRegistry;
 import li.cil.oc2.common.util.RegistryUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,7 +21,7 @@ public final class BlockDeviceDataRegistry {
 
     ///////////////////////////////////////////////////////////////////
 
-    private static final Supplier<IForgeRegistry<BlockDeviceData>> REGISTRY = INITIALIZER.makeRegistry(BlockDeviceData.class, RegistryBuilder::new);
+    private static final Supplier<IForgeRegistry<BlockDeviceData>> REGISTRY = INITIALIZER.makeRegistry(RegistryBuilder::new);
 
     ///////////////////////////////////////////////////////////////////
 
@@ -33,7 +34,7 @@ public final class BlockDeviceDataRegistry {
 
     @Nullable
     public static ResourceLocation getKey(final BlockDeviceData data) {
-        return data.getRegistryName();
+        return REGISTRY.get().getKey(data);
     }
 
     @Nullable
