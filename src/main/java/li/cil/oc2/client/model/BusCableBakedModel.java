@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.extensions.IForgeBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
@@ -182,6 +183,11 @@ public record BusCableBakedModel(
         }
 
         return blockEntityData;
+    }
+
+    @Override
+    public ChunkRenderTypeSet getRenderTypes(@NotNull final BlockState state, @NotNull final RandomSource rand, @NotNull final ModelData data) {
+        return ChunkRenderTypeSet.of(RenderType.chunkBufferLayers().toArray(RenderType[]::new));
     }
 
     ///////////////////////////////////////////////////////////////////

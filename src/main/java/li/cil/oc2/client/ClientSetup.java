@@ -18,15 +18,13 @@ import li.cil.oc2.common.blockentity.BlockEntities;
 import li.cil.oc2.common.bus.device.DeviceTypes;
 import li.cil.oc2.common.container.Containers;
 import li.cil.oc2.common.entity.Entities;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -52,9 +50,6 @@ public final class ClientSetup {
             MenuScreens.register(Containers.ROBOT.get(), RobotContainerScreen::new);
             MenuScreens.register(Containers.ROBOT_TERMINAL.get(), RobotTerminalScreen::new);
             MenuScreens.register(Containers.NETWORK_TUNNEL.get(), NetworkTunnelScreen::new);
-
-            ItemBlockRenderTypes.setRenderLayer(Blocks.BUS_CABLE.get(), renderType -> true);
-            Minecraft.getInstance().getBlockColors().register(new BusCableBlockColor(), Blocks.BUS_CABLE.get());
 
             // We need to register this manually, because static init throws errors when running data generation.
             MinecraftForge.EVENT_BUS.register(ProjectorDepthRenderer.class);
@@ -91,5 +86,10 @@ public final class ClientSetup {
     @SubscribeEvent
     public static void handleRegisterLayerDefinitionsEvent(final EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(RobotModel.ROBOT_MODEL_LAYER, RobotModel::createRobotLayer);
+    }
+
+    @SubscribeEvent
+    public static void handleRegisterBlockColourHandlers(final RegisterColorHandlersEvent.Block event) {
+        event.register(new BusCableBlockColor(), Blocks.BUS_CABLE.get());
     }
 }
