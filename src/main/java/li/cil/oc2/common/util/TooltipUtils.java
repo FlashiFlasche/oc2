@@ -117,7 +117,7 @@ public final class TooltipUtils {
         addInventoryInformation(itemsTag, tooltip, getDeviceTypeNames());
     }
 
-    public static void addInventoryInformation(final CompoundTag itemsTag, final List<Component> tooltip, final String... subInventoryNames) {
+    public static void addInventoryInformation(final CompoundTag itemsTag, final List<Component> tooltip, final Component... subInventoryNames) {
         final List<ItemStack> itemStacks = ITEM_STACKS.get();
         itemStacks.clear();
         final IntList itemStackSizes = ITEM_STACKS_SIZES.get();
@@ -125,9 +125,9 @@ public final class TooltipUtils {
 
         collectItemStacks(itemsTag, itemStacks, itemStackSizes);
 
-        for (final String subInventoryName : subInventoryNames) {
-            if (itemsTag.contains(subInventoryName, NBTTagIds.TAG_COMPOUND)) {
-                collectItemStacks(itemsTag.getCompound(subInventoryName), itemStacks, itemStackSizes);
+        for (final Component subInventoryName : subInventoryNames) {
+            if (itemsTag.contains(String.valueOf(subInventoryName), NBTTagIds.TAG_COMPOUND)) {
+                collectItemStacks(itemsTag.getCompound(String.valueOf(subInventoryName)), itemStacks, itemStackSizes);
             }
         }
 
@@ -162,12 +162,12 @@ public final class TooltipUtils {
 
     ///////////////////////////////////////////////////////////////////
 
-    private static String[] getDeviceTypeNames() {
+    private static Component[] getDeviceTypeNames() {
         final ForgeRegistry<DeviceType> registry = RegistryManager.ACTIVE.getRegistry(DeviceType.REGISTRY);
         if (registry != null) {
-            return registry.getValues().stream().map(DeviceType::getName).toArray(String[]::new);
+            return registry.getValues().stream().map(DeviceType::getName).toArray(Component[]::new);
         } else {
-            return new String[0];
+            return new Component[0];
         }
     }
 
